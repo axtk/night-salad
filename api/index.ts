@@ -9,6 +9,8 @@ const hosts = new Set([
 
 let app = express();
 
+app.disable('x-powered-by');
+
 app.get('/', async (req, res) => {
     let {u} = req.query;
 
@@ -30,7 +32,7 @@ app.get('/', async (req, res) => {
             url.searchParams.get('content_type');
 
         if (contentType)
-            res.set('Content-Type', contentType);
+            res.set('content-type', contentType);
 
         let {body, status, statusText} = await fetch(url);
 

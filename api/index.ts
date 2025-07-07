@@ -1,6 +1,6 @@
 import express from 'express';
 
-export const app = express();
+const app = express();
 
 app.get('/', (_req, res) => {
     res.json({
@@ -11,3 +11,5 @@ app.get('/', (_req, res) => {
 app.listen(3000, () => {
     console.log('Ready');
 });
+
+export default app;

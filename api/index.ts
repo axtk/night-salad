@@ -1,5 +1,6 @@
 import {Readable} from 'node:stream';
 import express, {type ErrorRequestHandler} from 'express';
+import cors from 'cors';
 
 const hosts = new Set([
     undefined,
@@ -10,18 +11,19 @@ const hosts = new Set([
 let app = express();
 
 app.disable('x-powered-by');
+app.use(cors());
+
+app.use((req, res) => {
+    let refererHost = req.headers.referer?.match(/^(https?:)?\/\/([^\/]+)/)?.[2];
+
+    if (!hosts.has(refererHost))
+        res.status(200).send('OK');
+});
 
 app.get('/', async (req, res) => {
     let {u} = req.query;
 
     if (typeof u !== 'string') {
-        res.status(200).send('OK');
-        return;
-    }
-
-    let refererHost = req.headers.referer?.match(/^(https?:)?\/\/([^\/]+)/)?.[2];
-
-    if (!hosts.has(refererHost)) {
         res.status(200).send('OK');
         return;
     }

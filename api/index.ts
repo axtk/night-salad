@@ -13,11 +13,13 @@ let app = express();
 app.disable('x-powered-by');
 app.use(cors());
 
-app.use((req, res) => {
+app.use((req, res, next) => {
     let refererHost = req.headers.referer?.match(/^(https?:)?\/\/([^\/]+)/)?.[2];
 
     if (!hosts.has(refererHost))
         res.status(200).send('OK');
+
+    next();
 });
 
 app.get('/', async (req, res) => {

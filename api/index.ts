@@ -28,7 +28,7 @@ app.get('/', async (req, res) => {
 
     try {
         let url = new URL(u);
-        let contentType = (req.query.contentType as string | undefined) ??
+        let contentType = (req.query.content_type as string | undefined) ??
             url.searchParams.get('content_type');
 
         if (contentType)
@@ -42,7 +42,7 @@ app.get('/', async (req, res) => {
         }
 
         if (!body) {
-            res.status(404).send('None');
+            res.status(404).send('Empty');
             return;
         }
 
